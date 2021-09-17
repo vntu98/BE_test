@@ -1,6 +1,6 @@
 ## Installation
 ```bash
-composer create-project danganh97/miduner:dev-master your-project-folder
+composer install
 ```
 
 ## Configuration Virtual Hosts
