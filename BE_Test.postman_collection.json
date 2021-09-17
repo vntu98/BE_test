@@ -1,0 +1,108 @@
+{
+	"info": {
+		"_postman_id": "d16c0af4-2045-468b-9f20-74eb1be8bf97",
+		"name": "BE_Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://fresh.test/api/user/login.php",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"admin@gmail.com\",\n    \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://fresh.test/api/user/login.php",
+					"protocol": "http",
+					"host": [
+						"fresh",
+						"test"
+					],
+					"path": [
+						"api",
+						"user",
+						"login.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://fresh.test/api/user/logout.php",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsIm5hbWUiOiJhZG1pbiB1cGRhdGVkIiwicGhvbmVfbnVtYmVyIjoiMDEyMzQ1Njc4OSIsImV4cGlyZXMiOjE2MzE4ODgzMTJ9.i5oJ-btCPm_g33rsazHcfAbTbsphlBGSoDyGwKJeJig",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://fresh.test/api/user/logout.php",
+					"protocol": "http",
+					"host": [
+						"fresh",
+						"test"
+					],
+					"path": [
+						"api",
+						"user",
+						"logout.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://fresh.test/api/user/update.php",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsIm5hbWUiOiJhZG1pbiB1cGRhdGVkIiwicGhvbmVfbnVtYmVyIjoiMDEyMzQ1Njc4OSIsImV4cGlyZXMiOjE2MzE4ODgzMTJ9.i5oJ-btCPm_g33rsazHcfAbTbsphlBGSoDyGwKJeJig",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"admin@gmail.com\",\n    \"name\": \"admin updated\"\n}"
+				},
+				"url": {
+					"raw": "http://fresh.test/api/user/update.php",
+					"protocol": "http",
+					"host": [
+						"fresh",
+						"test"
+					],
+					"path": [
+						"api",
+						"user",
+						"update.php"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
