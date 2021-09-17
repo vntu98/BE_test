@@ -1,0 +1,12 @@
+{
+    "name": "vutu/test-api",
+    "authors": [
+        {
+            "name": "vntu",
+            "email": "vntu98@gmail.com"
+        }
+    ],
+    "require": {
+        "firebase/php-jwt": "^5.4"
+    }
+}
