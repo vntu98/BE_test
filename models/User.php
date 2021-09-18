@@ -34,6 +34,10 @@ class User {
         // Attempt credential
         $user = $this->attemp($this->email, $this->password);
 
+        if (!$user) {
+            return false;
+        }
+
         // Set properties
         $this->name = $user['name'];
         $this->address = $user['address'];
