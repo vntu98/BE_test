@@ -19,11 +19,15 @@
     $result = $user->logout();
 
     if (!$result) {
+        http_response_code(400);
         $response = [
+            'status' => 400,
             'message' => 'Token did not match the expected token!'
         ];
     } else {
+        http_response_code(200);
         $response = [
+            'status' => 200,
             'message' => 'Logout successfull!'
         ];
     }

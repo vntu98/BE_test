@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "http://fresh.test/api/user/login.php",
+			"name": "Login",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -42,7 +42,7 @@
 			"response": []
 		},
 		{
-			"name": "http://fresh.test/api/user/logout.php",
+			"name": "Logout",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -69,7 +69,7 @@
 			"response": []
 		},
 		{
-			"name": "http://fresh.test/api/user/update.php",
+			"name": "Update user",
 			"request": {
 				"method": "PUT",
 				"header": [
@@ -80,13 +80,13 @@
 					},
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsIm5hbWUiOiJhZG1pbiB1cGRhdGVkIiwicGhvbmVfbnVtYmVyIjoiMDEyMzQ1Njc4OSIsImV4cGlyZXMiOjE2MzE4ODgzMTJ9.i5oJ-btCPm_g33rsazHcfAbTbsphlBGSoDyGwKJeJig",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InVzZXJAZ21haWwuY29tIiwibmFtZSI6InVzZXIiLCJwaG9uZV9udW1iZXIiOiIwMTIzNDU2Nzg3IiwiZXhwaXJlcyI6MTYzMTkzNjEzM30.epHLLh_glakJfxyLVuUj0ZkS3hQAI7EPysyafRgrpfI",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"admin@gmail.com\",\n    \"name\": \"admin updated\"\n}"
+					"raw": "{\n    \"email\": \"user@gmail.com\",\n    \"name\": \"user\",\n    \"password\": \"password\"\n}"
 				},
 				"url": {
 					"raw": "http://fresh.test/api/user/update.php",
@@ -99,6 +99,33 @@
 						"api",
 						"user",
 						"update.php"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user by email",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://fresh.test/api/user/show.php?email=user@gmail.com",
+					"protocol": "http",
+					"host": [
+						"fresh",
+						"test"
+					],
+					"path": [
+						"api",
+						"user",
+						"show.php"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "user@gmail.com"
+						}
 					]
 				}
 			},

@@ -23,12 +23,14 @@
 
     // Get user
     $hasUser = $user->show();
-    
+
     if (!$hasUser) {
+        http_response_code(404);
         $response = [
             'message' => 'User not found!'
         ];
     } else {
+        http_response_code(200);
         $user->name = $data->name ?? $user->name;
         $user->address = $data->address ?? $user->address;
         $user->phone_number = $data->phone_number ?? $user->phone_number;

@@ -1,12 +1,13 @@
 <?php
 
 require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
-
-use Firebase\JWT\JWT;
+require $_SERVER['DOCUMENT_ROOT'] . '/traits/Authenticate.php';
 
 class User {
+    use Authenticate;
+
     private $conn;
-    
+
     private $key = '_token';
 
     private $table = 'users';
@@ -26,64 +27,21 @@ class User {
     // Login user
     public function login()
     {
-        $query = "SELECT u.email, u.name, u.address, u.phone_number
-            FROM {$this->table} u
-            WHERE u.email = :email
-            LIMIT 0,1
-        ";
-
-        // Prepare statement
-        $stmt = $this->conn->prepare($query);
-
         // Prevent injection
         $this->email = htmlspecialchars(strip_tags($this->email));
         $this->password = htmlspecialchars(strip_tags($this->password));
 
-        // Bind params
-        $stmt->bindParam(':email', $this->email);
-
-        // Excute query
-        $stmt->execute();
-
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        if (!$row) {
-            return false;
-        }
-
-        // Compare password
-        if (!password_verify($this->password, $this->getPassword())) {
-            return false;
-        }
+        // Attempt credential
+        $user = $this->attemp($this->email, $this->password);
 
         // Set properties
-        $this->name = $row['name'];
-        $this->address = $row['address'];
-        $this->phone_number = $row['phone_number'];
+        $this->name = $user['name'];
+        $this->address = $user['address'];
+        $this->phone_number = $user['phone_number'];
 
         $token = $this->generateToken();
 
         return $token;
-    }
-
-    // Generate token
-    protected function generateToken() {
-        $expires = time() + 60 * 60;
-        $payload = [
-            'email' => $this->email,
-            'name' => $this->name,
-            'phone_number' => $this->phone_number,
-            'expires' => $expires
-        ];
-
-        $token = JWT::encode($payload, $this->key);
-
-        $response = [
-            'token' => $token,
-            'expires' => $expires
-        ];
-
-        return $response;
     }
 
     // Get user
@@ -105,7 +63,7 @@ class User {
         $stmt->execute();
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
         if (!$row) {
             return false;
         }
@@ -121,9 +79,12 @@ class User {
     // Update user
     public function update()
     {
-        $authorization = $this->authorization();
+        $this->email = htmlspecialchars(strip_tags($this->email));
+        $isLogin = $this->getCurrentUser();
+        $authorization = $this->authorization($this->email);
 
-        if (!$authorization) {
+        if (!$isLogin || !$authorization) {
+            http_response_code(403);
             $response = [
                 'message' => 'Unauthorization!'
             ];
@@ -145,11 +106,12 @@ class User {
         $stmt = $this->conn->prepare($query);
 
         // Prevent injection
-        $this->email = htmlspecialchars(strip_tags($this->email));
         $this->name = htmlspecialchars(strip_tags($this->name));
         $this->address = htmlspecialchars(strip_tags($this->address));
         $this->phone_number = htmlspecialchars(strip_tags($this->phone_number));
-        $this->password = password_hash(htmlspecialchars(strip_tags($this->password ?: $this->getPassword())), PASSWORD_DEFAULT);
+        $this->password = $this->password ?
+            password_hash(htmlspecialchars(strip_tags($this->password)), PASSWORD_DEFAULT) :
+            $this->getPassword($this->email);
 
         // Bind params
         $stmt->bindParam(':email', $this->email);
@@ -160,6 +122,7 @@ class User {
 
         // Excute query
         if ($stmt->execute()) {
+            http_response_code(200);
             $response = [
                 'message' => 'User updated!'
             ];
@@ -172,63 +135,12 @@ class User {
         return false;
     }
 
-    // Get password user
-    protected function getPassword() {
-        $query = "SELECT u.password
-            FROM {$this->table} u
-            WHERE u.email = :email
-            LIMIT 0,1
-        ";
-
-        // Prepare statement
-        $stmt = $this->conn->prepare($query);
-
-        // Bind params
-        $stmt->bindParam(':email', $this->email);
-
-        // Excute query
-        $stmt->execute();
-
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        return $row['password'];
-    }
-
     public function logout()
     {
-        $headers = apache_request_headers();
-
-        if (isset($headers['Authorization'])) {
-            $token = str_replace('Bearer ', '', $headers['Authorization']);
-        
-            try {
-                $token = JWT::decode($token, $this->key, array('HS256'));
-
-                return true;
-            } catch (Exception $e) {
-                return false;
-            }
+        if ($this->getCurrentUser()) {
+            return true;
         }
-        
-        return false;
-    }
 
-    protected function authorization()
-    {
-        $headers = apache_request_headers();
-
-        if (isset($headers['Authorization'])) {
-            $token = str_replace('Bearer ', '', $headers['Authorization']);
-        
-            try {
-                $token = JWT::decode($token, $this->key, array('HS256'));
-
-                return true;
-            } catch (Exception $e) {
-                return false;
-            }
-        }
-        
         return false;
     }
 }

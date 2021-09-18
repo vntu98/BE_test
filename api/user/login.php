@@ -23,11 +23,27 @@
     $user->password = $data->password;
 
     // Get response user login
-    $response = $user->login();
+    $token = $user->login();
 
-    if (!$response) {
+    if (!$token) {
+        http_response_code(422);
         $response = [
+            'status' => 422,
             'message' => 'Email or password invalid!'
+        ];
+    } else {
+        http_response_code(200);
+        $response = [
+            'status' => 200,
+            'data' => [
+                'user' => [
+                    'email' => $user->email,
+                    'name' => $user->name,
+                    'phone_number' => $user->phone_number,
+                    'address' => $user->address,
+                ],
+                'token' => $token
+            ]
         ];
     }
 

@@ -20,15 +20,21 @@
     $result = $user->show();
 
     if (!$result) {
+        http_response_code(404);
         $response = [
+            'status' => 404,
             'message' => 'User not found'
         ];
     } else {
+        http_response_code(200);
         $response = [
-            'email' => $user->email,
-            'name' => $user->name,
-            'address' => $user->address,
-            'phone_number' => $user->phone_number
+            'status' => 200,
+            'data' => [
+                'email' => $user->email,
+                'name' => $user->name,
+                'address' => $user->address,
+                'phone_number' => $user->phone_number
+            ]
         ];
     }
 

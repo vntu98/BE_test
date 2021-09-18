@@ -11,7 +11,7 @@
  Target Server Version : 80023
  File Encoding         : 65001
 
- Date: 17/09/2021 20:55:01
+ Date: 18/09/2021 09:36:53
 */
 
 SET NAMES utf8mb4;
@@ -34,7 +34,8 @@ CREATE TABLE `users` (
 -- Records of users
 -- ----------------------------
 BEGIN;
-INSERT INTO `users` VALUES ('admin@gmail.com', 'admin updated', 'Ha Noi', '0123456789', '$2y$10$YBJkMQVfXrui3/3KxpUeOed69B31bXObXOrDAkaLWYNs.6u3P..VK');
+INSERT INTO `users` VALUES ('admin@gmail.com', 'admin updated', 'Ha Noi', '0123456789', '$2y$10$pKh0nZwH006X/UZGnhN.WeDSk39LzYAZqTWemS86iARYpqh4aV1zG');
+INSERT INTO `users` VALUES ('user@gmail.com', 'user', 'Ha Nam', '0123456787', '$2y$10$M9juWzMBK.m.hVqzhOcuX.JWUSmFA5pvVhhSb/EXiNQZj4cXNr/jy');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
